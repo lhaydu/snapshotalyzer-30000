@@ -1,5 +1,5 @@
 # snapshotalyzer-30000
-Demo to manage AWS EC2 instance ## Aboutn
+Demo to manage AWS EC2 instance
 
 
 ## About
@@ -18,10 +18,11 @@ shotty uses the configuration file created by the AWS cli, i.e.,
 `pipenv fun "python shotty/shotty.py"`
 
 
-Pre-requisities
+## Pre-requisities
 1.  Create EC2 instances
-    5 instances - t2.micro
+    5 instances - t2.micros
     tag project: Valkyrie
+
 2.  IAM
     Add user:  snapshotalyzer
     API only
@@ -37,7 +38,7 @@ Pre-requisities
     default region name - us-east-1
     output format (enter)
 
-Pipenv
+## Pipenv
 1.  pipenv --three
 2.  pipenv install boto3
 3.  pipenv install -d ipython
