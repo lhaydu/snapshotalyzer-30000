@@ -36,7 +36,7 @@ def list_snapshots(project):
                     i.id,
                     s.state,
                     s.progress,
-                    s.start_tiem.strftim("%c")
+                    s.start_time.strftime("%c")
                 )))
     return
 
@@ -45,9 +45,22 @@ def list_snapshots(project):
     help="Only volumes for instances with project (tag Project:<name>)")
 def create_snapshots(project):
     instances = filter_instances(project)
+
     for i in instances:
-        for v in volumes:
-            v.create_snaphot(Description="Created by Snapshotalyzer 30000")
+        print("Stopping {0}...".format(i.id))
+        if i.state != "stopped":
+             i.stop()
+             i.wait_until_stopped()
+
+        for v in i.volumes.all():
+            v.create_snapshot(Description="Created by Snapshotalyzer 30000")
+
+        print("Starting {0}...".format(i.id))
+        i.start()
+        i.wait_until_running()
+        print("Running {0}...".format(i.id))
+
+    print("Job's done!")
     return
 
 @snapshots.command('delete')
