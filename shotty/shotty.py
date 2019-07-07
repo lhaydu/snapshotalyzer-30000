@@ -25,7 +25,10 @@ def snapshots():
 @snapshots.command('list')
 @click.option('--project', default=None,
     help="Only volumes for instances with project (tag Project:<name>)")
-def list_snapshots(project):
+@click.option('--all', 'list_all', default=False, is_flag=True,
+    help="List all snapshots fro each volume, not just the most recent")
+def list_snapshots(project, list_all):
+    """List all recent snapshots up to the latest successful snapshot for the volume"""
     instances = filter_instances(project)
 
     for i in instances:
@@ -39,6 +42,8 @@ def list_snapshots(project):
                     s.progress,
                     s.start_time.strftime("%c")
                 )))
+
+                if s.state == "completed" and not list_all: break
     return
 
 @snapshots.command('create')
